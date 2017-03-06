@@ -17,17 +17,14 @@ my.server<-function(input,output){
   urlParameter<-paste(urlHeader,"?parameter=",sep="")
   #append url with & date_to of slider input (use latest)
   
-  data.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000",sep="")
+  us.frame <- reactive({
+    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","US",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
     airData<- flatten(airData$results)
   })
   
-  dateInput <- reactive({
-    return (input$date)
-  })
   output$plot<-renderPlot({
     
     airData <- group_by(data.frame(),country) %>% 

@@ -11,7 +11,7 @@ urlHeader <- "https://api.openaq.org/v1/measurements"
 urlParameter<-urlHeader + "?parameter="
 #append url with & date_to of slider input (use latest)
 
-dataUrl <- "https://api.openaq.org/v1/measurements?parameter=pm10&limit=10000"
+dataUrl <- "https://api.openaq.org/v1/measurements?parameter=pm10&limit=10000&order_by=date&sort=desc"
 airData <- GET(dataUrl)
 airData <- content(airData,"text")
 airData<- fromJSON(airData)
