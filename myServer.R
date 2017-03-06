@@ -16,17 +16,21 @@ my.server<-function(input,output){
   urlHeader <- "https://api.openaq.org/v1/measurements"
   urlParameter<-paste(urlHeader,"?parameter=",sep="")
   #append url with & date_to of slider input (use latest)
-  dateInput <- reactive({
-    return (input$date)
-  })
-  output$plot<-renderPlot({
-    dataUrl<-paste(urlParameter,"pm25&date_to=",dateInput(),sep="")
+  
+  data.frame <- reactive({
+    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
     airData<- flatten(airData$results)
+  })
+  
+  dateInput <- reactive({
+    return (input$date)
+  })
+  output$plot<-renderPlot({
     
-    airData<- group_by(airData,country) %>% 
+    airData <- group_by(data.frame(),country) %>% 
       summarize(value = mean(value))
     
     mapCopy <- map.frame
@@ -37,8 +41,7 @@ my.server<-function(input,output){
       coord_quickmap()
     return(plot)
   })
-  
-  
   #onclick change to country clicked
   
 }
+

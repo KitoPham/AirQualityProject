@@ -1,6 +1,6 @@
-library(maps)
 
-
+library(httr)
+library(jsonlite)
 library(maps)
 library(knitr)
 library(ggplot2)
@@ -11,7 +11,7 @@ urlHeader <- "https://api.openaq.org/v1/measurements"
 urlParameter<-urlHeader + "?parameter="
 #append url with & date_to of slider input (use latest)
 
-dataUrl <- "https://api.openaq.org/v1/measurements?parameter=pm25&date_to=2015-12-06"
+dataUrl <- "https://api.openaq.org/v1/measurements?parameter=pm10&limit=10000"
 airData <- GET(dataUrl)
 airData <- content(airData,"text")
 airData<- fromJSON(airData)
@@ -22,7 +22,7 @@ airData<- group_by(airData,country) %>%
 
 
 
-map.frame <- map_data("world") %>% 
+map.frame <- map_data("br") %>% 
   mutate(country = iso.alpha(region))
 airData <- left_join(map.frame,airData)
 
