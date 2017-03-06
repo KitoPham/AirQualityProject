@@ -42,3 +42,358 @@ my.server<-function(input,output){
   
 }
 
+et.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","ET",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+
+
+es.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","ES",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+dk.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","DK",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+})
+
+de.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","DE",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+cz.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","CZ",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+co.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","CO",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+cn.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","CN",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+cl.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","CL",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+ca.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","CA",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+br.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","BR",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+bh.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","BH",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+be.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","BE",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+bd.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","BD",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+ba.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","BA",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+au.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","AU",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+at.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","AT",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+fr.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","FR",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+gb.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","GB",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+gi.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","GI",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+hr.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","HR",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+hu.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","HU",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+id.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","ID",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+ie.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","IE",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+il.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","IL",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+in.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","IN",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+kw.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","KW",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+mk.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","MK",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+mn.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","MN",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+mx.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","MX",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+ng.frame <- reactive({
+  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","NG",sep="")
+  airData <- GET(dataUrl)
+  airData <- content(airData,"text")
+  airData<- fromJSON(airData)
+  airData<- flatten(airData$results)
+  
+  airData <- group_by(data.frame(),country) %>% 
+    summarize(value = mean(value))
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
