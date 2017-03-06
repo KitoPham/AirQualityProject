@@ -1,6 +1,6 @@
 library(maps)
-install.packages("rworldmap")
-library(rworldmap)
+
+
 library(maps)
 library(knitr)
 library(ggplot2)

@@ -1,5 +1,5 @@
 library(shiny)
-my.ui <- fluidpage(
+my.ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       selectInput("parameter", "Select a gas", c("pm25", "pm10","so2", "o3","co","bc"))
@@ -8,5 +8,9 @@ my.ui <- fluidpage(
       plotOutput("plot")
     )
   ),
-  sliderInput("date", timeFormat = "%F")
+  sliderInput("date","Date:",
+              min = as.Date("2012-01-01","%Y-%m-%d"),
+              max = as.Date("2017-03-06","%Y-%m-%d"),
+              value = as.Date("2017-03-06","%Y-%m-%d"),
+              timeFormat = "%Y-%m-%d")
 )
