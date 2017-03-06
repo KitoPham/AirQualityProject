@@ -474,7 +474,6 @@ my.server<-function(input,output){
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
     airData<- flatten(airData$results)
-    
     airData <- group_by(data.frame(),country) %>% 
       summarize(value = mean(value))
   })
@@ -491,8 +490,9 @@ my.server<-function(input,output){
 
   output$plot<-renderPlot({
     
-    mapCopy <- map.frame
-    airData <- left_join(mapCopy,airData)
+    airData <- map.frame
+    airData <- left_join(airData,ar.frame)
+    airData <- left_join(airData,at.frame)
     
     plot <- ggplot(data = airData, na.rm = TRUE) +
       geom_polygon(aes(x = long, y = lat, group = group, fill = value)) +
