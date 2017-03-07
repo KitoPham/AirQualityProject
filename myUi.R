@@ -11,7 +11,7 @@ my.ui <- fluidPage(
   sliderInput("date","Date:",
               min = as.Date("2012-01-01","%Y-%m-%d"),
               max = as.Date("2017-03-06","%Y-%m-%d"),
-              value = c(as.Date("2017-03-06","%Y-%m-%d"),
-                        as.Date("2016-03-06","%Y-%m-%d")),
+              value = c(as.Date("2016-03-06","%Y-%m-%d"),
+                        as.Date("2017-03-06","%Y-%m-%d")),
               timeFormat = "%Y-%m-%d")
 )
