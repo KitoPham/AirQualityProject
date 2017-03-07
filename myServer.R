@@ -3,6 +3,8 @@ library(ggplot2)
 library(shiny)
 library(httr)
 library(jsonlite)
+library(maps)
+library(tidyr)
 
 rootUrl <- "https://api.openaq.org/v1/"
 ### response <- GET(url)
@@ -10,24 +12,29 @@ rootUrl <- "https://api.openaq.org/v1/"
 ### body.data <- flatten(body.data)
 
 my.server<-function(input,output){
-  #https://api.openaq.org/v1/measurements?parameter= (ui.dropdown input, ex= pm25)
+  #"https://api.openaq.org/v1/measurements?parameter=" (ui.dropdown input, ex= pm25)
+  
   map.frame <- map_data("world") %>% 
     mutate(country = iso.alpha(region))
-  urlHeader <- "https://api.openaq.org/v1/measurements"
-  urlParameter<-paste(urlHeader,"?parameter=",sep="")
+  #urlHeader <- "https://api.openaq.org/v1/measurements"
+  
+  #urlParameter <- paste(urlHeader,"?parameter=",sep="")
   #append url with & date_to of slider input (use latest)
   
+
+  ################# Country Frame SetUp #############
   ar.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","US",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","US",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
-    airData<- fromJSON(airData)
-    airData<- flatten(airData$results)
+    airData <- fromJSON(airData)
+    airData <- flatten(airData$results)
     airData <- group_by(data.frame(),country) %>% 
       summarize(value = mean(value))
+    
   })
   nl.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","NL",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","NL",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -36,7 +43,7 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   no.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","NO",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","NO",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -45,7 +52,7 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   np.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","NP",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","NP",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -54,16 +61,17 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   pe.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","PE",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","PE",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
     airData<- flatten(airData$results)
+    
     airData <- group_by(data.frame(),country) %>% 
       summarize(value = mean(value))
   })
   ph.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","ph",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","ph",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -72,14 +80,14 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   us.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","US",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","US",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
     airData<- flatten(airData$results)
   })
   pl.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","PL",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","PL",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -88,7 +96,7 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   se.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","SE",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","SE",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -97,7 +105,7 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   sg.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","SG",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","SG",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -106,7 +114,7 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   th.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","TH",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","TH",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -115,7 +123,7 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   tr.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","TR",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","TR",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -124,7 +132,7 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   tw.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","TW",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","TW",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -133,7 +141,7 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   ug.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","UG",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","UG",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -142,7 +150,7 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   vn.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","VN",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","VN",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -151,7 +159,7 @@ my.server<-function(input,output){
       summarize(value = mean(value))
   })
   XK.frame <- reactive({
-    dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","xk",sep="")
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","xk",sep="")
     airData <- GET(dataUrl)
     airData <- content(airData,"text")
     airData<- fromJSON(airData)
@@ -159,35 +167,382 @@ my.server<-function(input,output){
     airData <- group_by(data.frame(),country) %>% 
       summarize(value = mean(value))
   })
-  
-  output$plot<-renderPlot({
+  et.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","ET",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
     
     airData <- group_by(data.frame(),country) %>% 
       summarize(value = mean(value))
+  })
+  es.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","ES",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
     
-    mapCopy <- map.frame
-    airData <- left_join(mapCopy,airData)
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  dk.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","DK",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+  })
+  de.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","DE",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  cz.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","CZ",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  co.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","CO",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  cn.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","CN",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  cl.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","CL",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  ca.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","CA",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  br.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","BR",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  bh.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","BH",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  be.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","BE",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  bd.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","BD",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  ba.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","BA",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  au.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","AU",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  at.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","AT",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  fr.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","FR",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  gb.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","GB",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  gi.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","GI",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  hr.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","HR",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  hu.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","HU",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  id.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","ID",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  ie.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","IE",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  il.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","IL",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  in.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","IN",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  kw.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","KW",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  mk.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","MK",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  mn.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","MN",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  mx.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","MX",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+  ng.frame <- reactive({
+    dataUrl<-paste("https://api.openaq.org/v1/measurements?parameter=",input$parameter,"&limit=10000&country?=","NG",sep="")
+    airData <- GET(dataUrl)
+    airData <- content(airData,"text")
+    airData<- fromJSON(airData)
+    airData<- flatten(airData$results)
+    
+    airData <- group_by(data.frame(),country) %>% 
+      summarize(value = mean(value))
+  })
+
+  ###End of country frames set up
   
+  
+  ################# World Plot Render ######################
+  output$plot<-renderPlot({
+    
+    ###grabs the average values and assigns to country
+    ###################################################
+    
+    airData <- map.frame
+    
+    airData <- left_join(airData,ar.frame())
+    airData <- left_join(airData,at.frame())
+    airData <- left_join(airData,au.frame())
+    airData <- left_join(airData,ba.frame())
+    airData <- left_join(airData,bd.frame())
+    
+    airData <- left_join(airData,be.frame())
+    airData <- left_join(airData,bh.frame())
+    airData <- left_join(airData,br.frame())
+    airData <- left_join(airData,ca.frame())
+    airData <- left_join(airData,cl.frame())
+    
+    airData <- left_join(airData,cn.frame())
+    airData <- left_join(airData,co.frame())
+    airData <- left_join(airData,cz.frame())
+    airData <- left_join(airData,de.frame())
+    airData <- left_join(airData,dk.frame())
+    
+    airData <- left_join(airData,es.frame())
+    airData <- left_join(airData,et.frame())
+    airData <- left_join(airData,fi.frame())
+    airData <- left_join(airData,fr.frame())
+    airData <- left_join(airData,gb.frame())
+    
+    airData <- left_join(airData,gi.frame())
+    airData <- left_join(airData,hr.frame())
+    airData <- left_join(airData,hu.frame())
+    airData <- left_join(airData,id.frame())
+    airData <- left_join(airData,ie.frame())
+    
+    airData <- left_join(airData,il.frame())
+    airData <- left_join(airData,in.frame())
+    airData <- left_join(airData,kw.frame())
+    airData <- left_join(airData,mk.frame())
+    airData <- left_join(airData,mn.frame())
+    
+    airData <- left_join(airData,ng.frame())
+    airData <- left_join(airData,mx.frame())
+    airData <- left_join(airData,nl.frame())
+    airData <- left_join(airData,no.frame())
+    airData <- left_join(airData,np.frame())
+    
+    airData <- left_join(airData,pe.frame())
+    airData <- left_join(airData,ph.frame())
+    airData <- left_join(airData,pl.frame())
+    airData <- left_join(airData,se.frame())
+    airData <- left_join(airData,sg.frame())
+    
+    airData <- left_join(airData,th.frame())
+    airData <- left_join(airData,tr.frame())
+    airData <- left_join(airData,tw.frame())
+    airData <- left_join(airData,ug.frame())
+    airData <- left_join(airData,us.frame())
+    
+    airData <- left_join(airData,vn.frame())
+    airData <- left_join(airData,xk.frame())
+    
+    ###End of Map Setup
+
+    ################
     plot <- ggplot(data = airData, na.rm = TRUE) +
       geom_polygon(aes(x = long, y = lat, group = group, fill = value)) +
       coord_quickmap()
     return(plot)
   })
-  #onclick change to country clicked
-  
-}
+#onclick change to country clicked
 
-et.frame <- reactive({
-  dataUrl<-paste(urlParameter,input$parameter,"&limit=10000&country?=","ET",sep="")
-  airData <- GET(dataUrl)
-  airData <- content(airData,"text")
-  airData<- fromJSON(airData)
-  airData<- flatten(airData$results)
-  
-  airData <- group_by(data.frame(),country) %>% 
-    summarize(value = mean(value))
-})
-
+<<<<<<< HEAD
 
 
 es.frame <- reactive({
@@ -509,6 +864,9 @@ ng.frame <- reactive({
   airData <- group_by(data.frame(),country) %>% 
     summarize(value = mean(value))
 })
+=======
+}
+>>>>>>> 78cb515bfee18cefcc8faa3247c7270248b60ea7
 
 
 
