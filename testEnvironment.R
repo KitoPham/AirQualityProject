@@ -6,6 +6,7 @@ library(knitr)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+
 #https://api.openaq.org/v1/measurements?parameter= (ui.dropdown input, ex= pm25)
 urlHeader <- "https://api.openaq.org/v1/measurements"
 urlParameter<-urlHeader + "?parameter="
@@ -17,8 +18,13 @@ airData <- content(airData,"text")
 airData<- fromJSON(airData)
 airData<- flatten(airData$results)
 
+filterDate<- airData %>% 
+  filter(date.utc > input$date[1]) %>% 
+  filter(date.utc < input$date[2])
+
 airData<- group_by(airData,country) %>% 
             summarize(value = mean(value))
+
 
 
 

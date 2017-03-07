@@ -306,6 +306,9 @@ be.frame <- reactive({
   
   airData <- group_by(data.frame(),country) %>% 
     summarize(value = mean(value))
+  filterDate<- airData %>% 
+    filter(date.utc > input$date[1]) %>% 
+    filter(date.utc < input$date[2])
 })
 
 bd.frame <- reactive({
@@ -482,6 +485,7 @@ mn.frame <- reactive({
   
   airData <- group_by(data.frame(),country) %>% 
     summarize(value = mean(value))
+    
 })
 
 mx.frame <- reactive({
