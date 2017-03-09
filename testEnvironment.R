@@ -53,8 +53,17 @@ x <- map.cities(x = , country = "", label = TRUE,
 states <- map_data("state")
  
 
+us.frame$value = cut(us.frame$value, 10)
 p <- ggplot() + 
-  geom_polygon(data = states, fill = "#ffffff", color = "#000000", aes(x = long, y = lat, group = group))  + 
-  geom_point(data = us.frame, aes(x = longitude, y = latitude, color = value))
-p
+  geom_polygon(data = states, fill = "#629632", color = "#000000", aes(x = long, y = lat, group = group))  + 
+  geom_point(data = us.frame, aes(x = longitude, y = latitude, color = value)) +
+      scale_color_brewer(palette = 'Reds')
+
+
+
+
+
+
+
+
 
