@@ -19,7 +19,11 @@ map.frame <- map_data("world") %>%
 us.frame <- filter(us.frame, latitude > 25) %>% 
   filter(latitude < 55)
 
+range <- c("2017-03-01", "2017-03-03")
 
+us.frame <- filter(us.frame, as.Date(utc) < as.Date(paste(range[2],"T08:00:00.000Z")))
+
+2017-03-04T08:00:00.000Z
 
 
 

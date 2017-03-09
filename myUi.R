@@ -16,8 +16,8 @@ my.ui <- fluidPage(
       tabsetPanel(type="tabs",
         tabPanel(
           "Compare",
-          plotOutput("overtime", hover = "overtimehover")#,
-          #plotOutput("barCompare", hover = "barHover")
+          plotOutput("overtime", hover = "overtimehover"),
+          plotOutput("barCompare", hover = "barHover")
         ),
         
         tabPanel(
