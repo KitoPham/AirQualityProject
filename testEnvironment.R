@@ -21,7 +21,11 @@ us.frame <- filter(us.frame, latitude > 25) %>%
 
 range <- c("2017-03-01", "2017-03-03")
 
-us.frame <- filter(us.frame, as.Date(utc) < as.Date(paste(range[2],"T08:00:00.000Z")))
+us.frame <- filter(us.frame, as.Date(utc) < as.Date(paste(range[2],"T08:00:00.000Z"))) %>% 
+                filter(city == "Cadillac") %>% 
+                  group_by(city, utc = as.Date(utc)) %>% 
+                    summarise(value = mean(value))
+                  
 
 
 

@@ -1,5 +1,19 @@
+
+library(dplyr)
+library(ggplot2)
 library(shiny)
+library(httr)
+library(jsonlite)
+library(maps)
+library(tidyr)
+library(RColorBrewer)
+library(plotly)
+
 my.ui <- fluidPage(
+  
+  titlePanel(h1("Particle Matter 2.5 (PM2.5) Measurements in the United States")),
+  p("This resource is a visualization display of locations in the United States that measure PM2.5, this resource enables one to view the various levels across different locations and compare them directly"),
+  
   sidebarLayout(
     sidebarPanel(
       uiOutput("selectthis"),
@@ -16,8 +30,8 @@ my.ui <- fluidPage(
       tabsetPanel(type="tabs",
         tabPanel(
           "Compare",
-          plotOutput("overtime", hover = "overtimehover"),
-          plotOutput("barCompare", hover = "barHover")
+          plotlyOutput("overtime"),
+          plotOutput("barCompare")
         ),
         
         tabPanel(
@@ -26,7 +40,9 @@ my.ui <- fluidPage(
                      brush = brushOpts(id = "zoom_brush",resetOnNew = TRUE)
                      ),
           
-          plotOutput("zoomed")
+          plotOutput("zoomed"),
+          h6("Highlight an area on top graph to zoom")
+          
         )
       )
     )
