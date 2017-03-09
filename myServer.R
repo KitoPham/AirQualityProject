@@ -25,13 +25,21 @@ my.server<-function(input,output){
   
   mar.5.7 <- read.csv('data/Mar5-7.csv', stringsAsFactors=FALSE)
   
+  # Stores all CSV files that contains dats from Feb 7 to March 7 into a dataframe
   us.all.frame <- rbind(mar.5.7, mar.1.4, feb.27.28, feb.25.26,
                       feb.21.24, feb.16.20, feb.11.15, feb.7.10)
+  
   us.reactive <- reactive({
+    
+    # Filters for values lower then the minimum and maximum utc(date) in the dataframe 
+    # us.all.frame
     frame <- filter(us.all.frame, as.Date(utc) < as.Date(paste(input$date[2],"T08:00:00.000Z"))) %>% 
               filter(as.Date(utc) > as.Date(paste(input$date[1],"T08:00:00.000Z")))
+    
+    # Groups location and finds the mean of the values within 'frame'
     frame <- aggregate(value~location + latitude + longitude + city, frame, mean)
     
+    # Filters out Hawaii and Alaska
     frame <- filter(frame, latitude > 25) %>% 
       filter(latitude < 55)
     
@@ -60,7 +68,13 @@ ranges2 <- reactiveValues(x = NULL, y = NULL)
   plot <- ggplot() + 
       geom_polygon(data = states, fill = "#629632", color = "#000000", aes(x = long, y = lat, group = group))  + 
     geom_point(data = us.reactive(), aes(x = longitude, y = latitude, color = value, size = value)) +
-    scale_color_gradient(low = "White", high = "red")
+    scale_color_gradient(low = "White", high = "red") +
+    labs(title = "Particle Pollution Within the US",  # plot title
+         x = "Longitude",  # x-axis label (with units!)
+         y = "Latitude",  # y-axis label (with units!)
+         color = "Amount of µg/m³",  # legend label for the "color" property
+        size = "µg/m³ Size")+
+    theme(plot.title = element_text(face = 'bold', size = 14))
   
   return(plot)
   })
@@ -74,7 +88,14 @@ ranges2 <- reactiveValues(x = NULL, y = NULL)
       geom_polygon(data = states, fill = "#629632", color = "#000000", aes(x = long, y = lat, group = group))  + 
       geom_point(data = us.reactive(), aes(x = longitude, y = latitude, color = value, size = value)) +
     scale_color_gradient(low = "White", high = "red") +
-      coord_cartesian(xlim = ranges2$x, ylim = ranges2$y)
+      coord_cartesian(xlim = ranges2$x, ylim = ranges2$y) +
+    labs(title = "Particle Pollution Within the US (Zoom)",  # plot title
+         x = "Longitude",  # x-axis label (with units!)
+         y = "Latitude",  # y-axis label (with units!)
+         color = "Amount of µg/m³",  # legend label for the "color" property
+         size = "µg/m³ Size") +
+    theme(plot.title = element_text(face = 'bold', size = 14))
+    
   
   return(plot)
   })
@@ -97,6 +118,8 @@ ranges2 <- reactiveValues(x = NULL, y = NULL)
     row = data.frame()
   )
   
+  # Filters for the city picked within the 'us.all.frame' and plots a graph of the two values
+  # from the cities
   output$overtime <- renderPlot({
     if (!is.null(input$city1)&&!is.null(input$city2)){
       city1.frame <- filter(us.all.frame, city == input$city1);
@@ -108,14 +131,20 @@ ranges2 <- reactiveValues(x = NULL, y = NULL)
         filter(as.Date(utc) > as.Date(paste(input$date[1],"T08:00:00.000Z")))
       
       plot <- ggplot() +
-        geom_point(data = city1.frame, mapping = aes(x = utc, y = value), color = "RED")+
-        geom_smooth(color = "RED")+
-        geom_point(data = city2.frame, mapping = aes(x = utc, y = value), color = "BLUE")+
-        geom_smooth(color = "BLUE")
+        geom_point(data = city1.frame, mapping = aes(x = utc, y = value), color = "RED") +
+        geom_smooth(color = "RED") +
+        geom_point(data = city2.frame, mapping = aes(x = utc, y = value), color = "BLUE") +
+        geom_smooth(color = "BLUE") +
+        labs(title = "PM2.5 Comparison Between Cities",  # plot title
+             x = "Date",  # x-axis label (with units!)
+             y = "µg/m³")+  # y-axis label (with units!)
+        theme(plot.title = element_text(face = 'bold', size = 14))
+      
       return(plot)
     }
   })
   
+  # Creates a bar chart to compate city1 and city2 
   output$barCompare <- renderPlot({
     if (!is.null(input$city1)&&!is.null(input$city2)){
       city1.frame <- filter(us.reactive(), city == input$city1) %>% 
@@ -127,14 +156,15 @@ ranges2 <- reactiveValues(x = NULL, y = NULL)
       cityframe <- rbind(city1.frame, city2.frame)
       
       plot <- ggplot() +
-        geom_col(data = cityframe, mapping = aes(x = city, y = average, fill=city))
+        geom_col(data = cityframe, mapping = aes(x = city, y = average, fill=city)) +
+        labs(title = "PM2.5 Comparison Between Cities",  # plot title
+             x = "City",  # x-axis label (with units!)
+             y = "µg/m³") + # y-axis label (with units!)
+        theme(plot.title = element_text(face = 'bold', size = 14))
       
       return(plot)
     }
   })
-  
-  
-  
 }
 
 
