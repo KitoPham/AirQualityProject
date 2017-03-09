@@ -8,14 +8,15 @@ library(dplyr)
 library(tidyr)
 
 
-us.frame <-read.csv("data/1-4.csv", stringsAsFactors = FALSE)
+us.frame <-read.csv("data/Mar1-4.csv", stringsAsFactors = FALSE)
 
-map.frame <- map_data("br") %>% 
-  mutate(country = iso.alpha(region))
-airData <- left_join(map.frame,airData)
+map.frame <- map_data("world") %>% 
+  mutate(country = iso.alpha(region)) %>% 
+    filter(country == "US")
 
-ggplot(data = airData, na.rm = TRUE) +
-    geom_polygon(aes(x = long, y = lat, group = group, fill = value)) +
+
+ggplot(data = map.frame, na.rm = TRUE) +
+    geom_polygon(aes(x = long, y = lat, group = group)) +
     coord_quickmap()
 
    
