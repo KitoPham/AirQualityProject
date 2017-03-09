@@ -13,7 +13,7 @@ my.ui <- fluidPage(
   
   titlePanel(h1("Particle Matter 2.5 (PM2.5) Measurements in the United States")),
   p("This resource is a visualization display of locations in the United States that measure PM2.5, this resource enables one to view the various levels across different locations and compare them directly"),
-  
+  p("source: https://openaq.org"),
   sidebarLayout(
     sidebarPanel(
       uiOutput("selectthis"),
