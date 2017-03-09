@@ -2,8 +2,9 @@ library(shiny)
 my.ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-     # textOutput("selected", label = "City"),
-      #textOutput("selectedLocation", label = "Location")
+      tableOutput("selected"),
+      tableOutput("selectedLocation")
+      
     ),
     mainPanel(
       plotOutput("plot", click = "point_click", 
@@ -14,7 +15,7 @@ my.ui <- fluidPage(
       ),
       
       column(width = 8,
-             plotOutput("zoomed", click = "point_click")
+             plotOutput("zoomed", click = "point_click2")
              ),
       
       sliderInput("date","Date:",
@@ -33,3 +34,4 @@ my.ui <- fluidPage(
   
   
 )
+

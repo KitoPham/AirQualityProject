@@ -51,11 +51,38 @@ ranges2 <- reactiveValues(x = NULL, y = NULL)
     }
   })
   
-  selectedCity <- reactive({
-    nearPoints(us.frame, input$plot_click, addDist = TRUE, maxpoints = 1)
+  #set up for brush
+  selecttable <- reactiveValues(
+    row = data.frame()
+  )
+  #grabs selected points
+  observeEvent(input$point_click, {
+    selecttable$row <- nearPoints(us.frame, input$point_click, threshold = 10000, maxpoints = 1)
   })
   
-#  output$overtime <- renderPlot({
+  output$selected <- renderTable({
+    text <- "Click on a point for city"
+    if(!is.null(selecttable$row)){
+      newtable <- selecttable$row
+      if(nrow(selecttable$row) > 0){
+        text <- newtable[1,]
+      }
+    }
+    return(text)
+  })
+  
+  output$selectedLocation <- renderTable({
+    text <- "Click on a point for location"
+    if(!is.null(selecttable$row)){
+      newtable <- selecttable$row
+      if(nrow(selecttable$row) > 0){
+        text <- newtable[1,]
+      }
+    }
+    return(text)
+  })
+  
+  #output$overtime <- renderPlot({
  #   cityname <- selectedCity$city
   #  cityFrame <- filter(us.frame, city == cityname)
 #  })
