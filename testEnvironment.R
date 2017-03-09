@@ -16,7 +16,7 @@ map.frame <- map_data("world") %>%
   mutate(country = iso.alpha(region)) %>% 
   filter(country == "US") 
 
-huh <- filter(us.frame, latitude > 25) %>% 
+us.frame <- filter(us.frame, latitude > 25) %>% 
   filter(latitude < 55)
 
 
@@ -24,6 +24,13 @@ huh <- filter(us.frame, latitude > 25) %>%
 
 
 
+
+
+us.frame <-read.csv("data/Mar1-4.csv", stringsAsFactors = FALSE)
+
+map.frame <- map_data("world") %>% 
+  mutate(country = iso.alpha(region)) %>% 
+    filter(country == "US")
 
 
 
@@ -48,6 +55,6 @@ states <- map_data("state")
 
 p <- ggplot() + 
   geom_polygon(data = states, fill = "#ffffff", color = "#000000", aes(x = long, y = lat, group = group))  + 
-  geom_point(data = huh, aes(x = longitude, y = latitude, color = value))
+  geom_point(data = us.frame, aes(x = longitude, y = latitude, color = value))
 p
 
